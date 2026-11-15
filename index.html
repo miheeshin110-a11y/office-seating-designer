@@ -1,0 +1,2365 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3층·6층 좌석 배치도</title><style>:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 16px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans:
+    -apple-system-body, ui-sans-serif, -apple-system, system-ui, "Segoe UI",
+    Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 8px);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E");
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html > body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-weight: var(--font-weight-normal);
+}
+
+.cursor-interaction {
+  cursor: var(--cursor-interaction, pointer);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+  text-underline-offset: 2px;
+  font-weight: inherit;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+.table {
+  font-family: var(--font-sans);
+}
+
+h1 {
+  font-size: calc(var(--font-size-base) * 1.5);
+  line-height: 1.3333333333;
+}
+
+h2 {
+  font-size: calc(var(--font-size-base) * 1.25);
+  line-height: 1.4;
+}
+h3 {
+  font-size: calc(var(--font-size-base) * 1.125);
+  line-height: 1.5555555556;
+}
+h4 {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+h5,
+h6 {
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong,
+th {
+  font-weight: 600;
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+pre,
+pre code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: calc(var(--font-size-base) * 0.875);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-family: var(--font-sans);
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 5%, transparent);
+}
+.table :is(th, td):not(:last-child) {
+  padding-inline-end: calc(var(--font-size-base) * 1.5);
+}
+
+.table-responsive > .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead :is(th, td) {
+  border-bottom-color: var(--border-strong, var(--input));
+  padding-block: calc(var(--font-size-base) / 2);
+  line-height: var(--font-size-base);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+.table tbody :is(th, td) {
+  padding-block: calc(var(--font-size-base) * 0.625);
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 8px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align="right"]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align="center"]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+.widget {
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  box-shadow: 0 0 0 0.5px var(--border-strong, var(--border));
+  color: var(--foreground);
+  background: var(--background);
+}
+
+#widget > :not(.card, .widget, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  border: 1px solid var(--border);
+  corner-shape: var(--corner-shape);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-sans);
+  padding: 5px 12px;
+  border-color: color-mix(
+    in oklab,
+    light-dark(var(--primary-foreground), var(--foreground)) 5%,
+    transparent
+  );
+  border-radius: var(--radius-2xl);
+  color: light-dark(var(--primary-foreground), var(--foreground));
+  background: light-dark(var(--foreground), var(--popover));
+  box-shadow: 0 8px 18px rgb(15 23 42 / 20%);
+  letter-spacing: -0.15px;
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  color: color-mix(in srgb, var(--foreground) 40%, var(--muted-foreground));
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-family: var(--font-sans);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1;
+}
+
+small,
+.text-small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls > .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls > .form-label > :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+/* Match inline alignment without overriding a containing flex or grid layout. */
+.btn,
+.nav-link,
+.form-control,
+.form-select,
+.form-range,
+.form-check {
+  vertical-align: middle;
+}
+
+.btn,
+.nav-link {
+  --btn-size: calc(12px + 2 * var(--control-spacing, 12px));
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: inherit;
+  font-family: var(--font-sans);
+  height: fit-content;
+  min-height: var(--btn-size);
+  padding-inline: var(--control-spacing, 12px);
+  border-color: transparent;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.btn {
+  border-color: var(--border);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+}
+
+/* Codex Button size="compact"; appearance stays with the button variant. */
+.btn-sm {
+  --btn-size: 24px;
+  padding-inline: 8px;
+  font-size: calc(var(--font-size-base) * 12 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 12 / 16), 1px);
+  line-height: 16px;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-link:not(:disabled):not([aria-disabled="true"]):hover {
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+}
+
+.btn-primary {
+  border-color: var(--border);
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: border-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: border-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--muted-foreground);
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+/* Shared preview chrome; product styles stay inside each variant. */
+.viz-dotted-background {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--foreground) 14%, transparent) 0.8px,
+    transparent 0.8px
+  );
+  background-position: center;
+  background-size: 16px 16px;
+}
+
+.viz-carousel {
+  position: relative;
+  min-width: 0;
+}
+
+.viz-carousel:has(> .viz-carousel-controls) {
+  min-height: calc(60px + var(--viz-carousel-picker-height, 0px));
+  padding-bottom: 60px;
+}
+
+.viz-carousel > [data-variant][hidden] {
+  display: none !important;
+}
+
+.viz-carousel > [data-variant] {
+  isolation: isolate;
+}
+
+.viz-carousel-controls {
+  --viz-carousel-hover: light-dark(
+    color-mix(in srgb, var(--foreground) 5.4%, transparent),
+    color-mix(in srgb, var(--foreground) 7.8%, transparent)
+  );
+  position: absolute;
+  z-index: 2;
+  bottom: 8px;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  /* Leave room for the host's design-controls launcher at the trailing edge. */
+  max-width: calc(100% - 96px);
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-sans);
+  /* Match the settings dropdown chrome independently of the content font size. */
+  font-size: 13px;
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+  transform: translateX(-50%);
+  user-select: none;
+}
+
+/* Keep authored mockup button styles out of the shared carousel chrome. */
+.viz-carousel-controls button,
+.viz-carousel-picker > summary {
+  display: flex !important;
+  height: auto !important;
+  min-height: 30px;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px;
+  padding: 0 6px !important;
+  -webkit-app-region: no-drag;
+  border: 0 !important;
+  border-radius: 14px !important;
+  color: inherit !important;
+  background: transparent !important;
+  font: inherit !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.viz-carousel-controls > button,
+.viz-carousel-picker > summary {
+  position: relative;
+  isolation: isolate;
+}
+
+.viz-carousel-controls > button {
+  --icon-size: 16px;
+  width: 30px !important;
+  padding: 0 !important;
+}
+
+.viz-carousel-picker > summary {
+  padding-inline: 12px !important;
+}
+
+.viz-carousel-controls .viz-carousel-caret {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin: 0;
+  color: inherit;
+  transform: rotate(180deg);
+}
+
+.viz-carousel-controls > button > svg,
+.viz-carousel-controls .viz-carousel-caret,
+.viz-carousel-count {
+  opacity: 0.5;
+}
+
+.viz-carousel-controls > button::before,
+.viz-carousel-picker > summary::before {
+  position: absolute;
+  z-index: -1;
+  inset: 3px;
+  border-radius: 12px;
+  content: "";
+  pointer-events: none;
+}
+
+.viz-carousel-controls > button:hover::before,
+.viz-carousel-picker > summary:hover::before {
+  background: var(--viz-carousel-hover);
+}
+
+.viz-carousel-controls > button,
+.viz-carousel-controls [data-lucide],
+.viz-carousel-controls .lucide {
+  flex-shrink: 0;
+}
+
+.viz-carousel-picker {
+  min-width: 0;
+}
+
+.viz-carousel-picker > summary {
+  min-width: 0;
+  list-style: none;
+}
+
+.viz-carousel-picker > summary::-webkit-details-marker {
+  display: none;
+}
+
+.viz-carousel-count {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.viz-carousel-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viz-carousel-options {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  max-height: 240px;
+  flex-direction: column;
+  gap: 2px;
+  overflow: auto;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--background);
+  box-shadow: 0 4px 12px light-dark(rgb(0 0 0 / 6%), rgb(0 0 0 / 25%));
+}
+
+.viz-carousel-options > button {
+  border-radius: max(0px, calc(var(--radius-lg) - 5px)) !important;
+  width: 100% !important;
+  min-height: 28px;
+  justify-content: flex-start !important;
+  padding: 4px 8px !important;
+  font-size: var(--font-size-small) !important;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.viz-carousel-options > [aria-current="true"],
+.viz-carousel-options > button:hover {
+  background: var(--viz-carousel-hover) !important;
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding-inline: calc(4px + var(--control-spacing, 12px) / 2);
+  border-color: var(--input);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--popover) 96%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.4285714286;
+}
+.form-control:is(
+  [type="file"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="week"],
+  [type="color"]
+) {
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  line-height: 18px;
+}
+.form-control:is(
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="week"]
+) {
+  padding-inline: var(--control-spacing, 12px);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type="file"] {
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+  padding: 0;
+}
+
+.form-control[type="file"]::file-selector-button {
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+  min-height: calc(10px + 2 * var(--control-spacing, 12px));
+  padding-inline: var(--control-spacing, 12px);
+  margin-inline-end: var(--control-spacing, 12px);
+}
+
+.form-control[type="file"]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type="color"] {
+  width: 40px;
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  resize: vertical;
+  min-height: 96px;
+  padding: 8px 10px;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: none;
+}
+.form-control:disabled {
+  color: var(--muted-foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  opacity: 1;
+}
+.form-control[aria-invalid="true"] {
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 20%, transparent);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: fit-content;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  margin: 0;
+  /* The secondary icon role is 14px at compact density and 16px at web density. */
+  --icon-size: calc(10px + var(--control-spacing, 12px) / 2);
+  /* Settings dropdowns retain a 12px inset and a 4px text-to-chevron gap. */
+  padding: 0 calc(16px + var(--icon-size)) 0 12px;
+  outline: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    ),
+    linear-gradient(
+      135deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    );
+  background-position:
+    calc(100% - 12px - var(--icon-size) / 2) 50%,
+    calc(100% - 12px - var(--icon-size) * 0.18) 50%;
+  background-repeat: no-repeat;
+  background-size: calc(var(--icon-size) * 0.32) calc(var(--icon-size) * 0.32);
+  cursor: var(--cursor-interaction, default);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.form-select :is(option, optgroup) {
+  color: var(--popover-foreground);
+  background-color: var(--popover);
+}
+
+.form-select :is(option, optgroup):disabled {
+  color: var(--muted-foreground);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.form-select:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+.form-select:disabled {
+  opacity: 0.4;
+}
+
+.form-check {
+  display: flex;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+  corner-shape: round;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  width: calc(10px + var(--control-spacing, 12px) / 2);
+  height: calc(10px + var(--control-spacing, 12px) / 2);
+  border-color: var(--border-strong, var(--input));
+  border-radius: calc(var(--radius-sm) / 2);
+  background-color: transparent;
+  color: var(--foreground);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:is(:checked, :indeterminate) {
+  border-color: var(--border-strong, var(--input));
+  background-color: color-mix(in srgb, var(--popover) 96%, transparent);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: "";
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+  background-color: var(--foreground);
+}
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:indeterminate::before {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 65%;
+  height: 6.65%;
+  margin: auto;
+  border-radius: var(--radius-full);
+  background: var(--foreground);
+  mask: none;
+  content: "";
+}
+
+.form-check-input[type="radio"] {
+  border-radius: var(--radius-full);
+  width: 16px;
+  height: 16px;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--input);
+}
+
+.form-check-input[type="radio"]:checked {
+  border: 0;
+  background: radial-gradient(
+    circle,
+    var(--primary-foreground) 0 3px,
+    var(--foreground) 3px
+  );
+  box-shadow: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.form-check:not(.form-switch) .form-check-input[type="checkbox"]:focus-visible {
+  border-color: var(--ring);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+.form-check:not(.form-switch) .form-check-input[type="radio"]:disabled,
+.form-check:not(.form-switch)
+  .form-check-input[type="radio"]:disabled
+  + .form-check-label {
+  opacity: 0.5;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  content: "";
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  border-color: #fff;
+  background: #fff;
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--blue);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+  outline: none;
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  accent-color: var(--primary);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  outline: none;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: transparent;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  margin-top: -9px;
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Outline the native track and thumb, preserving the larger input hit area. */
+.form-range:focus-visible::-webkit-slider-runnable-track {
+  outline: 2px auto Highlight;
+  outline-color: -webkit-focus-ring-color;
+}
+
+.form-range::-moz-range-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+
+.form-range:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed="true"],
+  [aria-selected="true"],
+  .is-selected
+) {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--blue);
+}
+
+.btn.viz-tile:is([aria-pressed="true"], [aria-selected="true"], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.viz-carousel-controls :is(button, summary):focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Web recipes are the default, including on renderers without inline style queries. */
+@supports (border-radius: if(style(--corner-shape: round): 1px; else: 2px)) {
+  /* Match the host's proportional text-sm scale at every text preference. */
+  .tooltip,
+  .viz-badge,
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    font-size: if(
+      style(--corner-shape: round): round(
+          nearest,
+          calc(var(--font-size-base) * 14 / 16),
+          1px
+        );
+        else: round(nearest, calc(var(--font-size-base) * 13 / 14), 1px)
+    );
+  }
+
+  .btn-sm {
+    font-size: if(
+      style(--corner-shape: round): round(
+          nearest,
+          calc(var(--font-size-base) * 12 / 16),
+          1px
+        );
+        else: round(nearest, calc(var(--font-size-base) * 12 / 14), 1px)
+    );
+  }
+
+  .btn,
+  .nav-link,
+  .form-select {
+    border-radius: if(
+      style(--corner-shape: round): var(--radius-full); else: var(--radius-lg)
+    );
+  }
+
+  .form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+    border-radius: if(
+      style(--corner-shape: round): calc(var(--radius-sm) / 2);
+        else: calc(var(--radius-lg) * 0.4)
+    );
+  }
+
+  .tooltip {
+    font-weight: if(
+      style(--corner-shape: round): 600; else: var(--font-weight-normal)
+    );
+  }
+}
+
+@media (pointer: coarse) {
+  .viz-carousel:has(> .viz-carousel-controls) {
+    min-height: calc(76px + var(--viz-carousel-picker-height, 0px));
+    padding-bottom: 76px;
+  }
+
+  .btn,
+  .nav-link,
+  .viz-carousel-controls button,
+  .viz-carousel-picker > summary,
+  .form-control,
+  .form-select {
+    --btn-size: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+  .form-control:is(
+    [type="file"],
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="week"],
+    [type="time"],
+    [type="color"]
+  ) {
+    height: 44px;
+    min-height: 44px;
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+
+  .form-control[type="file"]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type="color"] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="time"],
+    [type="week"]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget > svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+body{margin:0 auto;max-width:1250px;padding:1.25rem;box-sizing:border-box}
+#days-office-plan>details textarea{width:100%}
+#days-office-plan [data-plan]{font-weight:650}
+#days-office-plan .pin[data-person]{min-height:20px;line-height:1.15;font-size:12px;max-width:76px;overflow:hidden;text-overflow:ellipsis}
+#days-office-plan .pin[data-person]:not([data-team]){background:var(--card);color:var(--foreground)}
+#days-office-plan [draggable="true"]{cursor:grab}
+#days-office-plan .pin.drop-target{outline:3px solid var(--foreground);outline-offset:3px}
+#days-office-plan:not([data-editable]) form .fields,
+#days-office-plan:not([data-editable]) form button{display:none}
+</style></head><body>
+<script type="application/json" id="office-seed">{"fileId": "office-report-custom-v1", "draft": {"version": 1, "records": {"3-04": {"team": "SCM팀", "person": "임상민"}, "3-02": {"team": "SCM팀", "person": "이종한"}, "3-front-second": {"team": "경영지원부", "person": "신미희"}, "3-05": {"team": "오프라인팀", "person": "한용신"}, "3-08": {"team": "글로벌팀", "person": "김신혁"}, "3-06": {"team": "글로벌팀", "person": "장지훈"}, "3-09": {"team": "브랜드콘텐츠", "person": "강균혁"}, "3-10": {"team": "브랜드콘텐츠", "person": "김도은"}, "3-11": {"team": "브랜드콘텐츠", "person": "임은혜"}, "3-12": {"team": "브랜드콘텐츠", "person": "이현"}, "6-09": {"team": "디지털마케팅팀", "person": "김다예"}, "6-08": {"team": "디지털마케팅팀", "person": "박수열"}, "6-11": {"team": "디지털마케팅팀", "person": "홍주현"}, "6-05": {"team": "디지털마케팅팀", "person": "고혜린"}, "6-06": {"team": "임원", "person": "김수정"}, "6-10": {"team": "제품팀", "person": "손주희"}, "6-12": {"team": "PPL팀", "person": "김미정"}, "6-13": {"team": "R&D팀", "person": "한송희"}, "3-15": {"team": "미디어커머스", "person": "원송희"}, "3-16": {"team": "미디어커머스", "person": "유재은"}, "3-17": {"team": "미디어커머스", "person": "조정묵"}, "3-18": {"team": "미디어커머스", "person": "김인욱"}, "3-19": {"team": "미디어커머스", "person": "윤영준"}, "6-01": {"team": "온라인md팀", "person": "박소현"}, "6-02": {"team": "온라인md팀", "person": "이유정"}, "6-front": {"team": "온라인md팀", "person": "양지현"}, "6-03": {"team": "온라인md팀", "person": "박희성"}, "6-04": {"team": "총무팀", "person": "이성은"}, "3-03": {"team": "재무회계팀", "person": "김진희"}, "3-01": {"team": "재무회계팀", "person": "엄연진"}, "3-front": {"team": "임원", "person": "이정수"}}, "colors": {"미디어커머스": 0, "브랜드콘텐츠": 2, "제품팀": 3, "PPL팀": 4, "R&D팀": 5, "임원": 6, "SCM팀": 7, "경영지원부": 8, "총무팀": 9, "오프라인팀": 10, "글로벌팀": 11, "재무회계팀": 12, "디지털마케팅팀": 13, "온라인md팀": 14}, "roster": [{"team": "미디어커머스", "person": "원송희"}, {"team": "미디어커머스", "person": "유재은"}, {"team": "미디어커머스", "person": "조정묵"}, {"team": "미디어커머스", "person": "김인욱"}, {"team": "미디어커머스", "person": "윤영준"}, {"team": "브랜드콘텐츠", "person": "강균혁"}, {"team": "브랜드콘텐츠", "person": "김도은"}, {"team": "브랜드콘텐츠", "person": "임은혜"}, {"team": "브랜드콘텐츠", "person": "이현"}, {"team": "제품팀", "person": "손주희"}, {"team": "PPL팀", "person": "김미정"}, {"team": "R&D팀", "person": "한송희"}, {"team": "임원", "person": "김수정"}, {"team": "임원", "person": "이정수"}, {"team": "SCM팀", "person": "임상민"}, {"team": "SCM팀", "person": "이종한"}, {"team": "경영지원부", "person": "신미희"}, {"team": "총무팀", "person": "이성은"}, {"team": "오프라인팀", "person": "한용신"}, {"team": "글로벌팀", "person": "김신혁"}, {"team": "글로벌팀", "person": "장지훈"}, {"team": "재무회계팀", "person": "김진희"}, {"team": "재무회계팀", "person": "엄연진"}, {"team": "디지털마케팅팀", "person": "홍주현"}, {"team": "디지털마케팅팀", "person": "박수열"}, {"team": "디지털마케팅팀", "person": "김다예"}, {"team": "디지털마케팅팀", "person": "고혜린"}, {"team": "온라인md팀", "person": "양지현"}, {"team": "온라인md팀", "person": "박소현"}, {"team": "온라인md팀", "person": "박희성"}, {"team": "온라인md팀", "person": "이유정"}], "floor": 6, "flat": false, "selected": "6-06"}, "rounds": [{"version": 1, "records": {"6-01": {"team": "미디어커머스", "person": "원송희"}, "6-02": {"team": "미디어커머스", "person": "유재은"}, "6-front": {"team": "미디어커머스", "person": "조정묵"}, "6-04": {"team": "미디어커머스", "person": "김인욱"}, "6-05": {"team": "미디어커머스", "person": "윤영준"}, "6-06": {"team": "브랜드콘텐츠", "person": "강균혁"}, "6-07": {"team": "브랜드콘텐츠", "person": "김도은"}, "6-08": {"team": "브랜드콘텐츠", "person": "임은혜"}, "6-09": {"team": "브랜드콘텐츠", "person": "이현"}, "6-10": {"team": "제품팀", "person": "손주희"}, "6-12": {"team": "PPL팀", "person": "김미정"}, "6-13": {"team": "R&D팀", "person": "한송희"}, "3-03": {"team": "임원", "person": "김수정"}, "3-front": {"team": "임원", "person": "이정수"}, "3-04": {"team": "SCM팀", "person": "임상민"}, "3-02": {"team": "SCM팀", "person": "이종한"}, "3-front-second": {"team": "경영지원부", "person": "신미희"}, "3-07": {"team": "총무팀", "person": "이성은"}, "3-05": {"team": "오프라인팀", "person": "한용신"}, "3-08": {"team": "글로벌팀", "person": "김신혁"}, "3-06": {"team": "글로벌팀", "person": "장지훈"}, "3-13": {"team": "재무회계팀", "person": "김진희"}, "3-11": {"team": "재무회계팀", "person": "엄연진"}, "3-14": {"team": "디지털마케팅팀", "person": "홍주현"}, "3-12": {"team": "디지털마케팅팀", "person": "박수열"}, "3-10": {"team": "디지털마케팅팀", "person": "김다예"}, "3-15": {"team": "디지털마케팅팀", "person": "고혜린"}, "3-19": {"team": "온라인md팀", "person": "양지현"}, "3-17": {"team": "온라인md팀", "person": "박소현"}, "3-20": {"team": "온라인md팀", "person": "박희성"}, "3-18": {"team": "온라인md팀", "person": "이유정"}}, "colors": {"미디어커머스": 0, "브랜드콘텐츠": 2, "제품팀": 3, "PPL팀": 4, "R&D팀": 5, "임원": 6, "SCM팀": 7, "경영지원부": 8, "총무팀": 9, "오프라인팀": 10, "글로벌팀": 11, "재무회계팀": 12, "디지털마케팅팀": 13, "온라인md팀": 14}, "roster": [{"team": "미디어커머스", "person": "원송희"}, {"team": "미디어커머스", "person": "유재은"}, {"team": "미디어커머스", "person": "조정묵"}, {"team": "미디어커머스", "person": "김인욱"}, {"team": "미디어커머스", "person": "윤영준"}, {"team": "브랜드콘텐츠", "person": "강균혁"}, {"team": "브랜드콘텐츠", "person": "김도은"}, {"team": "브랜드콘텐츠", "person": "임은혜"}, {"team": "브랜드콘텐츠", "person": "이현"}, {"team": "제품팀", "person": "손주희"}, {"team": "PPL팀", "person": "김미정"}, {"team": "R&D팀", "person": "한송희"}, {"team": "임원", "person": "김수정"}, {"team": "임원", "person": "이정수"}, {"team": "SCM팀", "person": "임상민"}, {"team": "SCM팀", "person": "이종한"}, {"team": "경영지원부", "person": "신미희"}, {"team": "총무팀", "person": "이성은"}, {"team": "오프라인팀", "person": "한용신"}, {"team": "글로벌팀", "person": "김신혁"}, {"team": "글로벌팀", "person": "장지훈"}, {"team": "재무회계팀", "person": "김진희"}, {"team": "재무회계팀", "person": "엄연진"}, {"team": "디지털마케팅팀", "person": "홍주현"}, {"team": "디지털마케팅팀", "person": "박수열"}, {"team": "디지털마케팅팀", "person": "김다예"}, {"team": "디지털마케팅팀", "person": "고혜린"}, {"team": "온라인md팀", "person": "양지현"}, {"team": "온라인md팀", "person": "박소현"}, {"team": "온라인md팀", "person": "박희성"}, {"team": "온라인md팀", "person": "이유정"}], "floor": 6, "flat": false, "selected": "6-02"}, {"version": 1, "records": {"3-04": {"team": "SCM팀", "person": "임상민"}, "3-02": {"team": "SCM팀", "person": "이종한"}, "3-front-second": {"team": "경영지원부", "person": "신미희"}, "3-05": {"team": "오프라인팀", "person": "한용신"}, "3-08": {"team": "글로벌팀", "person": "김신혁"}, "3-06": {"team": "글로벌팀", "person": "장지훈"}, "3-09": {"team": "브랜드콘텐츠", "person": "강균혁"}, "3-10": {"team": "브랜드콘텐츠", "person": "김도은"}, "3-11": {"team": "브랜드콘텐츠", "person": "임은혜"}, "3-12": {"team": "브랜드콘텐츠", "person": "이현"}, "6-09": {"team": "디지털마케팅팀", "person": "김다예"}, "6-08": {"team": "디지털마케팅팀", "person": "박수열"}, "6-11": {"team": "디지털마케팅팀", "person": "홍주현"}, "6-05": {"team": "디지털마케팅팀", "person": "고혜린"}, "6-06": {"team": "임원", "person": "김수정"}, "6-10": {"team": "제품팀", "person": "손주희"}, "6-12": {"team": "PPL팀", "person": "김미정"}, "6-13": {"team": "R&D팀", "person": "한송희"}, "3-15": {"team": "미디어커머스", "person": "원송희"}, "3-16": {"team": "미디어커머스", "person": "유재은"}, "3-17": {"team": "미디어커머스", "person": "조정묵"}, "3-18": {"team": "미디어커머스", "person": "김인욱"}, "3-19": {"team": "미디어커머스", "person": "윤영준"}, "6-01": {"team": "온라인md팀", "person": "박소현"}, "6-02": {"team": "온라인md팀", "person": "이유정"}, "6-front": {"team": "온라인md팀", "person": "양지현"}, "6-03": {"team": "온라인md팀", "person": "박희성"}, "6-04": {"team": "총무팀", "person": "이성은"}, "3-03": {"team": "재무회계팀", "person": "김진희"}, "3-01": {"team": "재무회계팀", "person": "엄연진"}, "3-front": {"team": "임원", "person": "이정수"}}, "colors": {"미디어커머스": 0, "브랜드콘텐츠": 2, "제품팀": 3, "PPL팀": 4, "R&D팀": 5, "임원": 6, "SCM팀": 7, "경영지원부": 8, "총무팀": 9, "오프라인팀": 10, "글로벌팀": 11, "재무회계팀": 12, "디지털마케팅팀": 13, "온라인md팀": 14}, "roster": [{"team": "미디어커머스", "person": "원송희"}, {"team": "미디어커머스", "person": "유재은"}, {"team": "미디어커머스", "person": "조정묵"}, {"team": "미디어커머스", "person": "김인욱"}, {"team": "미디어커머스", "person": "윤영준"}, {"team": "브랜드콘텐츠", "person": "강균혁"}, {"team": "브랜드콘텐츠", "person": "김도은"}, {"team": "브랜드콘텐츠", "person": "임은혜"}, {"team": "브랜드콘텐츠", "person": "이현"}, {"team": "제품팀", "person": "손주희"}, {"team": "PPL팀", "person": "김미정"}, {"team": "R&D팀", "person": "한송희"}, {"team": "임원", "person": "김수정"}, {"team": "임원", "person": "이정수"}, {"team": "SCM팀", "person": "임상민"}, {"team": "SCM팀", "person": "이종한"}, {"team": "경영지원부", "person": "신미희"}, {"team": "총무팀", "person": "이성은"}, {"team": "오프라인팀", "person": "한용신"}, {"team": "글로벌팀", "person": "김신혁"}, {"team": "글로벌팀", "person": "장지훈"}, {"team": "재무회계팀", "person": "김진희"}, {"team": "재무회계팀", "person": "엄연진"}, {"team": "디지털마케팅팀", "person": "홍주현"}, {"team": "디지털마케팅팀", "person": "박수열"}, {"team": "디지털마케팅팀", "person": "김다예"}, {"team": "디지털마케팅팀", "person": "고혜린"}, {"team": "온라인md팀", "person": "양지현"}, {"team": "온라인md팀", "person": "박소현"}, {"team": "온라인md팀", "person": "박희성"}, {"team": "온라인md팀", "person": "이유정"}], "floor": 6, "flat": false, "selected": "6-06"}, {"version": 1, "records": {}, "colors": {"미디어커머스": 0, "브랜드콘텐츠": 2, "제품팀": 3, "PPL팀": 4, "R&D팀": 5, "임원": 6, "SCM팀": 7, "경영지원부": 8, "총무팀": 9, "오프라인팀": 10, "글로벌팀": 11, "재무회계팀": 12, "디지털마케팅팀": 13, "온라인md팀": 14}, "roster": [{"team": "미디어커머스", "person": "원송희"}, {"team": "미디어커머스", "person": "유재은"}, {"team": "미디어커머스", "person": "조정묵"}, {"team": "미디어커머스", "person": "김인욱"}, {"team": "미디어커머스", "person": "윤영준"}, {"team": "브랜드콘텐츠", "person": "강균혁"}, {"team": "브랜드콘텐츠", "person": "김도은"}, {"team": "브랜드콘텐츠", "person": "임은혜"}, {"team": "브랜드콘텐츠", "person": "이현"}, {"team": "제품팀", "person": "손주희"}, {"team": "PPL팀", "person": "김미정"}, {"team": "R&D팀", "person": "한송희"}, {"team": "임원", "person": "김수정"}, {"team": "임원", "person": "이정수"}, {"team": "SCM팀", "person": "임상민"}, {"team": "SCM팀", "person": "이종한"}, {"team": "경영지원부", "person": "신미희"}, {"team": "총무팀", "person": "이성은"}, {"team": "오프라인팀", "person": "한용신"}, {"team": "글로벌팀", "person": "김신혁"}, {"team": "글로벌팀", "person": "장지훈"}, {"team": "재무회계팀", "person": "김진희"}, {"team": "재무회계팀", "person": "엄연진"}, {"team": "디지털마케팅팀", "person": "홍주현"}, {"team": "디지털마케팅팀", "person": "박수열"}, {"team": "디지털마케팅팀", "person": "김다예"}, {"team": "디지털마케팅팀", "person": "고혜린"}, {"team": "온라인md팀", "person": "양지현"}, {"team": "온라인md팀", "person": "박소현"}, {"team": "온라인md팀", "person": "박희성"}, {"team": "온라인md팀", "person": "이유정"}], "floor": 6, "flat": false, "selected": "3-01"}], "activePlan": 1}</script>
+<div id="days-office-plan">
+<style>
+#days-office-plan{display:grid;gap:.75rem;--edge:color-mix(in srgb,var(--foreground) 21%,var(--background));--slab:color-mix(in srgb,var(--foreground) 5%,var(--background));--wood:color-mix(in srgb,var(--orange,var(--foreground)) 13%,var(--card));--seat:color-mix(in srgb,var(--foreground) 26%,var(--background));--side:color-mix(in srgb,var(--foreground) 17%,var(--background));--glass:color-mix(in srgb,var(--blue) 20%,transparent)}
+#days-office-plan .stage{position:relative;touch-action:none;user-select:none;width:100%;isolation:isolate;background:radial-gradient(ellipse at 50% 65%,var(--slab),transparent 70%)}
+#days-office-plan .stage[data-orbit]{cursor:grab}
+#days-office-plan .stage[data-dragging]{cursor:grabbing}
+#days-office-plan canvas,#days-office-plan svg{display:block;width:100%;height:100%;position:absolute;inset:0}
+#days-office-plan .pin{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;padding:0;min-width:24px;min-height:24px;border:0;background:transparent;font-variant-numeric:tabular-nums}
+#days-office-plan .pin[aria-pressed="true"]{color:var(--primary-foreground);background:var(--primary)}
+#days-office-plan .pin .name{max-width:4.3em;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:bottom}
+#days-office-plan .key{display:inline-flex;align-items:center;gap:.35em}
+#days-office-plan .dot{display:inline-block;width:.7em;height:.7em;border-radius:50%;background:var(--team)}
+#days-office-plan form{display:grid;gap:.55rem}
+#days-office-plan .form-label{display:grid;gap:.2rem;min-width:0}
+#days-office-plan .form-control{min-width:0;width:100%}
+#days-office-plan .fields{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+#days-office-plan .seat-picker{display:none}
+#days-office-plan .plan-label{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;color:var(--foreground)}
+@media(max-width:640px){#days-office-plan .pin .name{display:none}#days-office-plan .seat-picker{display:grid}}
+#days-office-plan .office-layout{display:grid;grid-template-columns:minmax(148px,180px) minmax(0,1fr);gap:1rem;align-items:start}
+#days-office-plan .office-main,#days-office-plan aside,#days-office-plan [data-roster]{display:grid;gap:.55rem;min-width:0}
+#days-office-plan .roster-team{border-bottom:1px solid var(--border);padding:.35rem 0}
+#days-office-plan .roster-team summary{padding:.35rem 0;overflow-wrap:anywhere}
+#days-office-plan .roster-team .members{display:grid;gap:.15rem;margin:.3rem 0}
+#days-office-plan .roster-person small{color:inherit;opacity:.78;margin-left:auto;white-space:nowrap}
+#days-office-plan .pin[data-team]{background:var(--team);color:white;padding:0 .3em}
+#days-office-plan .pin[data-team][aria-pressed="true"]{outline:2px solid var(--foreground);outline-offset:2px}
+#days-office-plan [data-placement]:empty{display:none}
+#days-office-plan .roster-person{text-align:left;white-space:normal;overflow-wrap:anywhere;justify-content:flex-start}
+#days-office-plan .team-code{background:var(--team);color:#fff;display:inline-block;padding:0 .34em;border-radius:.3em;margin-right:.25em}
+#days-office-plan [hidden]{display:none!important}
+#days-office-plan [data-placement]{min-height:1.4em;overflow-wrap:anywhere}
+@media(max-width:560px){#days-office-plan .office-layout{grid-template-columns:1fr}}
+#days-office-plan{--report-ink:light-dark(#162938,#e9f3fa);--report-panel:light-dark(#f0f5f8,#212e38);--report-accent:light-dark(#12695c,#84e5cb);color:var(--report-ink);gap:1.1rem}
+#days-office-plan .report-hero{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.55rem 1.7rem;background:#142e3b;color:#fff;border-radius:18px}
+#days-office-plan .report-hero p{color:#a5e0d3;margin:0 0 .2rem;font-weight:600}
+#days-office-plan .report-hero h1{margin:0;color:inherit;font-size:clamp(24px,4vw,40px);letter-spacing:-.055em}
+#days-office-plan .plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}
+#days-office-plan .plan-card{display:grid;gap:.32rem;align-content:start;padding:1rem;text-align:left;border:1px solid var(--border);border-radius:12px;background:var(--report-panel);color:var(--report-ink);font:inherit;cursor:pointer}
+#days-office-plan .plan-card span{font-size:clamp(21px,3vw,33px);font-weight:750;color:var(--report-accent)}
+#days-office-plan .plan-card strong{font-size:1.02rem}
+#days-office-plan .plan-card small{line-height:1.4}
+#days-office-plan .plan-card[aria-pressed=true]{background:#12695c;color:#fff;border-color:#12695c}
+#days-office-plan .plan-card[aria-pressed=true] span{color:#fff}
+#days-office-plan .report-summary{padding:.75rem 1rem;border-left:3px solid var(--report-accent);line-height:1.6}
+#days-office-plan .office-layout{grid-template-columns:minmax(0,1fr)}
+#days-office-plan .office-main{padding:1rem;border:1px solid var(--border);border-radius:14px}
+#days-office-plan [data-round-status]:empty{display:none}
+#days-office-plan .pin[data-person]{font-size:13px}
+@media(max-width:680px){#days-office-plan .plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#days-office-plan .move-details summary{padding:.6rem .8rem;cursor:pointer;font-weight:650;background:var(--report-panel);border-radius:8px;width:fit-content}
+#days-office-plan .move-details p{margin:.65rem 0}
+#days-office-plan .move-details table{width:100%;border-collapse:collapse;text-align:left}
+#days-office-plan .move-details th,#days-office-plan .move-details td{padding:.55rem .35rem;border-bottom:1px solid var(--border)}
+#days-office-plan .move-details th{background:var(--report-panel)}
+#days-office-plan .move-details td:nth-child(n+3){white-space:nowrap}
+#days-office-plan .pin[data-person][data-team]{background:color-mix(in srgb,var(--team) 10%,var(--card));color:var(--foreground);border:1px solid color-mix(in srgb,var(--team) 65%,var(--card));border-radius:6px;padding:0 .27em}
+body{max-width:1600px}
+#days-office-plan .office-layout{grid-template-columns:minmax(100px,134px) minmax(0,1fr) minmax(190px,238px);align-items:start}
+#days-office-plan .report-floors,#days-office-plan .report-roster{background:var(--report-panel);border-radius:12px;padding:.8rem}
+#days-office-plan .report-floors{display:grid;gap:.6rem}
+#days-office-plan .report-floors h2,#days-office-plan .report-roster h2,#days-office-plan .office-main>h2{font-size:1.1rem;margin:0}
+#days-office-plan .report-floors button{display:grid;gap:.2rem;text-align:left;background:var(--card);color:var(--report-ink);border:1px solid var(--border);border-radius:8px;padding:.7rem;font:inherit;cursor:pointer}
+#days-office-plan .report-floors button[aria-pressed=true]{background:#12695c;color:#fff;border-color:#12695c}
+#days-office-plan .floor-team{padding:.55rem 0;border-top:1px solid var(--border)}
+#days-office-plan .floor-team h3{font-size:.94rem;margin:0 0 .3rem}
+#days-office-plan .floor-team ul{list-style:none;margin:0;padding:0;display:grid;gap:.12rem}
+#days-office-plan .floor-team li{display:flex;justify-content:space-between;gap:.4rem}
+#days-office-plan .floor-team li small{white-space:nowrap}
+@media(max-width:900px){#days-office-plan .office-layout{grid-template-columns:100px minmax(0,1fr)}#days-office-plan .report-roster{grid-column:2}#days-office-plan [data-floor-roster]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}}
+@media(max-width:560px){#days-office-plan .office-layout{grid-template-columns:minmax(0,1fr)}#days-office-plan .report-roster{grid-column:1}#days-office-plan .report-floors{grid-template-columns:repeat(2,minmax(0,1fr))}#days-office-plan .report-floors h2{grid-column:1/-1}}
+#days-office-plan .stage-scroll{min-width:0;overflow-x:auto;border-radius:10px}
+#days-office-plan .stage-scroll .stage{max-width:none}
+#days-office-plan .pin[data-person]{font-size:14px;font-weight:700;max-width:none;min-height:22px}
+#days-office-plan .pin[data-person][data-team]{background:var(--card);box-shadow:0 1px 3px #0003}
+html{width:100%;overflow-x:hidden}
+body{width:100%;max-width:none;margin-inline:auto;padding:0}
+#days-office-plan{width:min(100%,1700px);box-sizing:border-box;margin-inline:auto;padding:clamp(.7rem,2vw,1.6rem)}
+#days-office-plan .office-layout{grid-template-columns:minmax(88px,110px) minmax(0,1fr) minmax(174px,210px)}
+#days-office-plan .office-main{min-width:0;padding:clamp(.5rem,1vw,1rem)}
+#days-office-plan .stage-scroll{overflow:hidden}
+#days-office-plan .pin[data-person]{font-size:clamp(11px,1.1vw,14px)}
+#days-office-plan .roster-drag{display:flex;justify-content:space-between;width:100%;gap:.4rem;text-align:left;cursor:grab}
+#days-office-plan .pin.drop-target{outline:2px solid var(--report-accent);outline-offset:2px}
+@media(max-width:900px){#days-office-plan .office-layout{grid-template-columns:88px minmax(0,1fr)}}
+@media(max-width:560px){#days-office-plan .office-layout{grid-template-columns:minmax(0,1fr)}}
+</style>
+<header class="report-hero">
+<div><p>3층 / 6층</p><h1>사무실 좌석 배치 비교</h1></div>
+<button class="btn" type="button" data-share>공유용 HTML 저장</button>
+</header>
+<div class="plan-grid" role="group" aria-label="배치안 선택"><button type="button" class="plan-card" data-plan="0"><span>기존안</span><strong>현재 배치</strong><small>변경 전 좌석 확인</small></button><button type="button" class="plan-card" data-plan="1"><span>2안</span><strong>팀별 층 재배치</strong><small>미디어커머스 3층 · 온라인 MD 6층</small></button><button type="button" class="plan-card" data-plan="2"><span>3안</span><strong>직접 배치</strong><small>오른쪽에서 이름 끌어 놓기</small></button></div>
+<div class="report-summary" data-report-summary aria-live="polite"></div>
+<p class="text-small" data-round-status role="status"></p>
+<div class="office-layout">
+<nav class="report-floors" aria-label="층 선택">
+  <h2>층별 안내</h2>
+  <button type="button" data-floor="3"><strong>3층</strong><small data-floor-count="3"></small></button>
+  <button type="button" data-floor="6"><strong>6층</strong><small data-floor-count="6"></small></button>
+</nav>
+<div class="office-main">
+<h2 data-floor-heading>좌석 도면</h2>
+<div class="viz-row" aria-label="도면 보기">
+<button class="btn btn-ghost" type="button" data-view aria-pressed="false">위에서 보기</button>
+<button class="btn btn-ghost" type="button" data-turn="-1" aria-label="왼쪽으로 30도 회전">↶</button>
+<button class="btn btn-ghost" type="button" data-turn="1" aria-label="오른쪽으로 30도 회전">↷</button>
+<span class="text-small text-muted" data-orbit-hint>드래그하여 회전</span>
+<span class="text-small text-muted" data-fallback hidden>이 환경에서는 기본 입체 보기로 표시돼요.</span>
+</div>
+<div class="text-small" data-placement role="status" aria-live="polite"></div>
+<button class="btn" type="button" data-move hidden>기존 자리에서 이동</button>
+<div class="stage-scroll" data-stage-scroll tabindex="0" aria-label="좌석 도면 영역"><div class="stage" data-stage><canvas aria-hidden="true" hidden></canvas><svg role="img" aria-label="책상, 의자와 사무실 구획"></svg><div data-pins></div></div></div>
+<div class="viz-row text-small" data-legend aria-live="polite"></div>
+<details class="move-details" data-moves>
+<summary>이동 내역</summary>
+<p data-move-count aria-live="polite"></p>
+<table data-move-table><thead><tr><th scope="col">이름</th><th scope="col">팀</th><th scope="col">기존 좌석</th><th scope="col">이동 좌석</th></tr></thead><tbody></tbody></table>
+</details>
+<label class="form-label seat-picker">좌석 선택<select class="form-select" data-seat-picker></select></label>
+<form class="card" data-form>
+<div class="viz-row"><strong data-selected></strong><span class="text-small text-muted" data-seat-note></span></div>
+</form>
+</div>
+<aside class="report-roster" aria-label="선택한 층의 팀별 인원">
+  <h2 data-roster-heading>팀별 인원</h2>
+  <div data-floor-roster></div>
+</aside>
+</div>
+</div>
+<script>
+addEventListener("DOMContentLoaded",()=>{
+
+(() => {
+function createOfficeRenderer(canvas){
+  const gl=canvas.getContext('webgl',{alpha:true,antialias:true});
+  if(!gl)return null;
+  function shader(type,source){
+    const shader=gl.createShader(type);
+    gl.shaderSource(shader,source);
+    gl.compileShader(shader);
+    if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(shader));
+    return shader;
+  }
+  const program=gl.createProgram();
+  gl.attachShader(program,shader(gl.VERTEX_SHADER,`
+    attribute vec3 position;
+    attribute vec3 color;
+    uniform vec4 angle;
+    uniform vec4 viewport;
+    varying vec3 litColor;
+    void main(){
+      float depth=angle.y*position.x+angle.x*position.y;
+      float x=angle.x*position.x-angle.y*position.y;
+      float y=angle.z*depth-angle.w*position.z;
+      float z=angle.w*depth+angle.z*position.z;
+      gl_Position=vec4((x-viewport.x)*viewport.z,(viewport.y-y)*viewport.w,-z/1500.0,1.0);
+      litColor=color;
+    }`));
+  gl.attachShader(program,shader(gl.FRAGMENT_SHADER,`
+    precision mediump float;
+    varying vec3 litColor;
+    void main(){gl_FragColor=vec4(litColor,1.0);}
+  `));
+  gl.linkProgram(program);
+  if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));
+  const buffer=gl.createBuffer();
+  const position=gl.getAttribLocation(program,'position'), color=gl.getAttribLocation(program,'color');
+  const angle=gl.getUniformLocation(program,'angle'), viewport=gl.getUniformLocation(program,'viewport');
+  let solids=[], view=null;
+  function render(parts,settings){
+    solids=parts;
+    view=settings;
+    const {width,height,centerX,centerY,scale,cos,sin,rise,lift}=settings;
+    const ratio=Math.min(2,window.devicePixelRatio||1);
+    const pixelsWide=Math.round(width*ratio), pixelsHigh=Math.round(height*ratio);
+    if(canvas.width!==pixelsWide||canvas.height!==pixelsHigh){
+      canvas.width=pixelsWide;canvas.height=pixelsHigh;
+    }
+    const vertices=[];
+    function triangle(a,b,c,rgb,shade){
+      for(const point of [a,b,c]){
+        const heightLight=.89+.11*Math.min(1,Math.max(0,point[2]/20));
+        const lit=rgb.map(value=>value*shade*heightLight);
+        vertices.push(...point,...lit);
+      }
+    }
+    for(const {x,y,w,h,z,base,rgb,radius=0} of parts){
+      const corners=[[x+radius,y+radius],[x+w-radius,y+radius],
+        [x+w-radius,y+h-radius],[x+radius,y+h-radius]];
+      const outline=corners.flatMap(([cx,cy],corner)=>{
+        const segments=radius?5:1;
+        return Array.from({length:segments},(_,step)=>{
+          const theta=(Math.PI/2)*(corner+2+step/Math.max(1,segments-1));
+          return [cx+radius*Math.cos(theta),cy+radius*Math.sin(theta)];
+        });
+      });
+      const bevel=Math.min(radius*.36,(z-base)*.25);
+      const ring=(height,inset)=>outline.map(([px,py])=>[
+        x+w/2+(px-x-w/2)*(1-2*inset/w),
+        y+h/2+(py-y-h/2)*(1-2*inset/h),height]);
+      const rings=[ring(base,bevel),ring(base+bevel,0),ring(z-bevel,0),ring(z,bevel)];
+      for(let i=0;i<outline.length;i++){
+        const j=(i+1)%outline.length;
+        const dx=outline[j][0]-outline[i][0],dy=outline[j][1]-outline[i][1];
+        const length=Math.hypot(dx,dy)||1;
+        const side=.73+.21*Math.max(0,(-dy*.48+dx*.88)/length);
+        triangle([x+w/2,y+h/2,z],rings[3][i],rings[3][j],rgb,1);
+        for(let k=0;k<3;k++){
+          const shade=k===2?(side+1)/2:side;
+          triangle(rings[k][i],rings[k][j],rings[k+1][j],rgb,shade);
+          triangle(rings[k][i],rings[k+1][j],rings[k+1][i],rgb,shade);
+        }
+      }
+    }
+    gl.viewport(0,0,pixelsWide,pixelsHigh);
+    gl.enable(gl.DEPTH_TEST);
+    gl.clearColor(0,0,0,0);
+    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    gl.useProgram(program);
+    gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(position);
+    gl.enableVertexAttribArray(color);
+    gl.vertexAttribPointer(position,3,gl.FLOAT,false,24,0);
+    gl.vertexAttribPointer(color,3,gl.FLOAT,false,24,12);
+    gl.uniform4f(angle,cos,sin,rise,lift);
+    gl.uniform4f(viewport,centerX,centerY,2*scale/width,2*scale/height);
+    gl.drawArrays(gl.TRIANGLES,0,vertices.length/6);
+  }
+  function pick(pixelX,pixelY){
+    if(!view)return null;
+    const {width,height,centerX,centerY,scale,cos,sin,rise,lift}=view;
+    const across=centerX+(pixelX-width/2)/scale;
+    const down=centerY+(pixelY-height/2)/scale;
+    const origin=[cos*across+sin*rise*down,-sin*across+cos*rise*down,-lift*down];
+    const direction=[sin*lift,cos*lift,rise];
+    let nearest=-Infinity, id=null;
+    for(const box of solids){
+      const min=[box.x,box.y,box.base], max=[box.x+box.w,box.y+box.h,box.z];
+      let low=-Infinity, high=Infinity;
+      for(let axis=0;axis<3;axis++){
+        const start=origin[axis], step=direction[axis];
+        if(Math.abs(step)<1e-8){
+          if(start<min[axis]||start>max[axis]){low=Infinity;break;}
+          continue;
+        }
+        const a=(min[axis]-start)/step, b=(max[axis]-start)/step;
+        low=Math.max(low,Math.min(a,b)); high=Math.min(high,Math.max(a,b));
+      }
+      if(low<=high&&high>nearest){nearest=high;id=box.id;}
+    }
+    return id;
+  }
+  return {render,pick};
+}
+
+const r=document.getElementById('days-office-plan'), q=s=>r.querySelector(s), stage=q('[data-stage]'), svg=q('svg'), pins=q('[data-pins]'), form=q('form');
+const canvas=q('canvas');
+let renderer;
+try{renderer=createOfficeRenderer(canvas);}catch(error){console.warn('Office 3D:',error);}
+canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();renderer=null;draw();});
+canvas.addEventListener('webglcontextrestored',()=>{
+  try{renderer=createOfficeRenderer(canvas);}catch(error){console.warn('Office 3D:',error);}
+  draw();
+});
+const colorProbe=document.createElement('span');
+colorProbe.hidden=true;
+r.append(colorProbe);
+const plans={
+3:{w:634,h:310, groups:[[58,120,2,2,'유리벽 안'],[194,111,2,2,'유리벽 옆'],[344,77,2,3,'가운데'],[502,70,2,3,'창가 쪽']],
+features:[],
+glass:[168,50,3,220],lift:[420,17,92,29],labels:[[466,13,'엘리베이터']]},
+6:{w:352,h:248,groups:[[48,48,2,1,'엘리베이터 앞'],[189,15,1,3,'엘리베이터 앞 창가'],[48,152,2,2,'펜던트 조명 쪽'],[194,152,2,2,'펜던트 조명 쪽']],
+features:[],
+glass:[18,124,316,3],lift:[185,-9,46,16],labels:[[208,-1,'엘리베이터'],[310,126,'가벽']]}
+};
+for(const [f,p] of Object.entries(plans)){
+p.seats=[];
+for(const [x,y,cols,rows,zone] of p.groups){
+const sideways=f==='3';
+for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+const d=sideways?{x:x+i*48,y:y+j*49,w:43,h:40,dir:i===0?'left':'right'}:{x:x+i*49,y:y+j*33,w:cols===1?64:46,h:29,dir:cols===1?'right':j===0?'back':'front'};
+p.seats.push({...d,zone,id:f+'-'+String(p.seats.length+1).padStart(2,'0')});
+}}}
+const sixthFloorSeats = plans[6].seats;
+const [sixthLeftDesk, sixthRightDesk] = sixthFloorSeats;
+Object.assign(sixthLeftDesk, {x:48,y:35,w:43,h:42,dir:'left'});
+Object.assign(sixthRightDesk, {x:91,y:35,w:43,h:42,dir:'right'});
+for(const desk of sixthFloorSeats.slice(2,5)){
+  Object.assign(desk, {w:38,h:32,dir:'left'});
+}
+sixthFloorSeats.splice(2,0,{
+  id:'6-front',zone:sixthLeftDesk.zone,dir:'front',
+  x:sixthLeftDesk.x,y:sixthLeftDesk.y+sixthLeftDesk.h,
+  w:sixthLeftDesk.w+sixthRightDesk.w,h:26
+});
+const thirdFloorSeats = plans[3].seats;
+function addHorizontalSeat(index, leftId, rightId, id) {
+  const left = thirdFloorSeats.find(seat => seat.id === leftId);
+  const right = thirdFloorSeats.find(seat => seat.id === rightId);
+  thirdFloorSeats.splice(index, 0, {
+    id, zone:left.zone, dir:'front',
+    x:left.x, y:left.y+left.h,
+    w:right.x+right.w-left.x, h:29
+  });
+}
+addHorizontalSeat(4, '3-03', '3-04', '3-front');
+addHorizontalSeat(9, '3-07', '3-08', '3-front-second');
+function seatNumber(id){
+  const floorNumber = Number(id.split('-')[0]);
+  return String(plans[floorNumber].seats.findIndex(seat => seat.id===id)+1).padStart(2,'0');
+}
+let yaw=-.40, tilt=.94;
+let floor=3, flat=false, selected='3-01', records={}, colors={}, roster=[];
+let picked=null, pendingMove=null;
+let openTeam;
+function restore(s){const d=s?.privateContent;if(d?.version!==1)return;records=d.records||{};colors=d.colors||{};roster=Array.isArray(d.roster)?d.roster:[];floor=d.floor===6?6:3;flat=!!d.flat;selected=plans[floor].seats.some(t=>t.id===d.selected)?d.selected:plans[floor].seats[0].id;}
+const seed=JSON.parse(document.getElementById('office-seed').textContent);
+const documentSource='<!doctype html>\n'+document.documentElement.outerHTML;
+const storageKey='office-seating:'+seed.fileId;
+const rounds=seed.rounds;
+const customKey='office-seating-custom:'+seed.fileId;
+try{
+  const saved=JSON.parse(localStorage.getItem(customKey));
+  if(saved?.version===1&&saved.records)rounds[2]=saved;
+}catch{}
+let activePlan=seed.activePlan;
+restore({privateContent:structuredClone(rounds[activePlan])});
+const snapshot=()=>structuredClone({version:1,records,colors,roster,floor,flat,selected});
+const summaries=[
+  '기존안 · 현재 좌석 배치.',
+  '2안 · 김수정님은 6층 7번, 이정수님은 3층 5번. 김진희님은 3층 3번, 엄연진님은 1번. 이성은님은 6층 5번에서 온라인 MD와 인접합니다.',
+  '3안 · 오른쪽 명단에서 이름을 책상에 끌어 놓으세요. 책상 위 이름을 오른쪽 명단으로 끌면 미배치로 돌아가고, 다른 사람의 책상에 놓으면 서로 자리를 바꿔요.'
+];
+const palette=['#175bbb','#a63826','#17734b','#753bb1','#9b285d','#785000','#006a79','#505573'];
+const allSeats=Object.values(plans).flatMap(plan=>plan.seats);
+const teamIndex=team=>Object.hasOwn(colors,team)?colors[team]:0;
+const teamColor=team=>team?palette[teamIndex(team)%palette.length]:'var(--side)';
+const teamCode=team=>String.fromCharCode(65+teamIndex(team)%26)+(teamIndex(team)>=26?String(Math.floor(teamIndex(team)/26)+1):'');
+const normalize=value=>String(value||'').normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase('ko');
+const memberKey=member=>JSON.stringify([normalize(member.team),normalize(member.person)]);
+const seatLabel=id=>id.split('-')[0]+'층 '+seatNumber(id)+'번';
+function register(member){
+  const {team,person}=member;
+  if(team&&!Object.hasOwn(colors,team)){
+    const index=Math.max(-1,...Object.values(colors))+1;
+    Object.defineProperty(colors,team,{value:index,enumerable:true,configurable:true});
+  }
+  if(person&&!roster.some(entry=>memberKey(entry)===memberKey(member)))roster.push({team,person});
+}
+function assignedSeats(member){
+  return allSeats.filter(seat=>records[seat.id]?.person&&memberKey(records[seat.id])===memberKey(member));
+}
+function showPlacement(message){
+  q('[data-placement]').textContent=message;
+  q('[data-move]').hidden=!pendingMove;
+}
+function makeTeamCode(team){
+  const code=document.createElement('span');
+  code.className='team-code';
+  code.style.setProperty('--team',teamColor(team));
+  code.textContent=teamCode(team);
+  return code;
+}
+const el=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);svg.append(n);return n;};
+const stageScroll=q('[data-stage-scroll]');
+function draw(){
+const p=plans[floor], available=stageScroll.clientWidth;
+if(available<=26)return;
+const angle=flat?0:yaw, elevation=flat?Math.PI/2:tilt;
+const cos=Math.cos(angle), sin=Math.sin(angle);
+const rise=Math.sin(elevation), lift=Math.cos(elevation);
+function camera(x,y,z=0){
+  const across=cos*x-sin*y, depth=sin*x+cos*y;
+  return [across, rise*depth-lift*z, lift*depth+rise*z];
+}
+const bounds=[];
+for(const x of [0,p.w])for(const y of [Math.min(0,p.lift[1]),p.h])for(const z of [-10,47])bounds.push(camera(x,y,z));
+const xs=bounds.map(point=>point[0]), ys=bounds.map(point=>point[1]);
+const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
+const heightBudget=Math.min(455,available*.70);
+const scale=Math.min((available-26)/(maxX-minX),heightBudget/(maxY-minY));
+const W=available;
+const H=Math.ceil(heightBudget+28);
+stage.style.width=W+'px';
+stage.style.height=H+'px';svg.setAttribute('viewBox','0 0 '+W+' '+H);
+svg.replaceChildren();pins.replaceChildren();
+const pt=(x,y,z=0)=>{
+  const [across,down]=camera(x,y,z);
+  return [W/2+scale*(across-(minX+maxX)/2),H/2+scale*(down-(minY+maxY)/2)];
+};
+const faces=[], parts=[];
+const use3D=Boolean(renderer&&!flat);
+const floorFinish='color-mix(in srgb, var(--background) 70%, #c3a47c)';
+canvas.hidden=!use3D;
+q('[data-fallback]').hidden=flat||use3D;
+svg.style.pointerEvents=use3D?'none':'';
+const colorCache=new Map();
+function material(fill){
+  if(colorCache.has(fill))return colorCache.get(fill);
+  colorProbe.style.color='color-mix(in srgb, '+fill+' 100%, transparent)';
+  const resolved=getComputedStyle(colorProbe).color;
+  const values=resolved.match(/-?\d*\.?\d+/g)?.map(Number)||[];
+  const rgb=values.length>=3?values.slice(0,3).map(value=>Math.max(0,Math.min(1,resolved.startsWith('color(')?value:value/255))):[.65,.68,.73];
+  colorCache.set(fill,rgb);
+  return rgb;
+}
+
+let deskId=null;
+function poly(points,fill,stroke='var(--edge)',sw=.65,layer=0){
+  const depth=points.reduce((sum,point)=>sum+camera(...point)[2],0)/points.length;
+  faces.push({depth,layer,attrs:{points:points.map(point=>pt(...point).join(',')).join(' '),
+    fill,stroke,'stroke-width':sw,'stroke-linejoin':'round',...(deskId?{'data-seat':deskId}:{})}});
+}
+function box(x,y,w,h,z,fill='var(--card)',base=0,edge='var(--edge)',sw=.65,layer=0,radius=0){
+  if(use3D){
+    parts.push({x,y,w,h,z,base,rgb:material(fill),id:deskId,radius:Math.min(radius,w*.49,h*.49)});
+    return;
+  }
+  const a=[x,y,z],b=[x+w,y,z],c=[x+w,y+h,z],d=[x,y+h,z];
+  if(!flat){
+    const sideA=sin>=0?[b,c]:[d,a];
+    const sideB=cos>=0?[c,d]:[a,b];
+    for(const [side,color] of [[sideA,'var(--side)'],[sideB,'var(--slab)']]){
+      const [first,last]=side;
+      poly([first,last,[last[0],last[1],base],[first[0],first[1],base]],color,edge,sw,layer);
+    }
+  }
+  poly([a,b,c,d],fill,edge,sw,layer);
+}
+function label(x,y,z,msg){
+const [a,b]=pt(x,y,z), t=document.createElement('span');t.className='plan-label text-small';t.style.left=a+'px';t.style.top=b+'px';t.textContent=msg;pins.append(t);
+}
+function glass(x,y,w,h){
+if(flat){box(x,y,w,h,0,'var(--glass)');return;}
+if(use3D){
+  box(x,y,w,h,3,'#718da3');
+  const length=floor===3?h:w, count=Math.ceil(length/54);
+  for(let i=0;i<=count;i++){
+    const offset=Math.min(length-2,length*i/count);
+    box(x+(floor===3?0:offset),y+(floor===3?offset:0),2,2,18,'#879bab');
+  }
+  return;
+}
+const a=[x,y], b=floor===3?[x,y+h]:[x+w,y], z=floor===3?27:11;
+poly([[...a,0],[...b,0],[...b,z],[...a,z]],'var(--glass)');
+}
+box(0,0,p.w,p.h,0,use3D?floorFinish:'var(--slab)',-9,'var(--edge)',.65,-1,7);
+if(use3D){
+  const seam='color-mix(in srgb, '+floorFinish+' 89%, #756f65)';
+  for(let y=28;y<p.h-8;y+=28){
+    box(8,y,p.w-16,.27,.022,seam,.014);
+    for(let x=y%56===0?45:80;x<p.w-9;x+=88){
+      box(x,y-27,.27,27,.022,seam,.014);
+    }
+  }
+}
+if(use3D){
+  const plaster='#e8dfd0', frame='#6c675c', glassBlue='#9cbac6';
+  // Lower the walls nearest the camera so they never obscure the layout.
+  function windowWall(length,alongX,raised){
+    function segment(start,width,bottom,top,color,thickness=4){
+      if(alongX)box(start,0,width,thickness,top,color,bottom);
+      else box(p.w-thickness,start,thickness,width,top,color,bottom);
+    }
+    segment(0,length,0,raised?15:6,plaster);
+    if(!raised)return;
+    const bays=Math.ceil(length/57), span=length/bays;
+    for(let bay=0;bay<bays;bay++){
+      const start=bay*span;
+      segment(start+2,span-4,15,39,glassBlue,2.8);
+      segment(start+span*.21,1.5,18,37,'#bed4dc',3);
+      segment(start,2.2,15,41,frame);
+    }
+    segment(0,length,14,16,frame,5);
+    segment(0,length,39,42,frame,5);
+  }
+  windowWall(p.w,true,cos>=0);
+  windowWall(p.h,false,sin<=0);
+  box(0,4,4,p.h-4,5,plaster);
+  box(4,p.h-4,p.w-4,4,5,plaster);
+  function planter(x,y){
+    box(x,y,12,12,7,'#b89a75',0,'none',0,0,2);
+    box(x+1,y+1,10,10,7.5,'#594c3b',7,'none',0,0,1.5);
+    for(const [dx,dy,height] of [[3,2,18],[6,5,22],[2,6,16],[7,1,15]]){
+      box(x+dx,y+dy,4,4,height,height>17?'#4c7354':'#648461',7.5,'none',0,0,1.8);
+    }
+  }
+  planter(12,p.h-23);
+  planter(p.w-22,12);
+  const [ex,ey,ew,eh]=p.lift;
+  box(ex,ey,ew,eh,24,'#c6baaa');
+  box(ex+4,ey+eh-.9,ew-8,1.15,21,'#777b7c',1);
+  box(ex+ew/2-.35,ey+eh,0.7,.28,21,'#d1d4d1',1);
+}else{
+  if(floor===3){
+    box(0,0,p.w,5,15,'var(--side)');
+    box(0,0,5,p.h,12,'var(--side)');
+  }
+  box(...p.lift,16,'var(--side)');
+}
+for(const [x,y,w,h,key] of p.features){
+  box(x,y,w,h,17,'var(--wood)',14);
+  if(key==='?')label(x+w/2,y+h/2,17,'?');
+}
+if(floor===3)glass(...p.glass);
+for(const d of p.seats){
+const {x,y,w,h,dir,id}=d, rec=records[id]||{}, active=id===selected;
+const left=dir==='left',right=dir==='right',back=dir==='back';
+const cx=left?x-19:right?x+w+4:x+(w-16)/2,cy=left||right?y+(h-16)/2:back?y-19:y+h+4;
+if(use3D){
+  const shadow=(sx,sy,sw,sh,radius)=>{
+    for(let i=0;i<4;i++){
+      const spread=(3-i)*1.65;
+      const fill='color-mix(in srgb, '+floorFinish+' '+(96-i*5)+'%, #455262)';
+      box(sx-spread,sy-spread,sw+2*spread,sh+2*spread,.06+i*.055,
+        fill,0,'none',0,0,radius+spread);
+    }
+  };
+  shadow(x+3,y+4,w-2,h-2,5);
+  shadow(cx+1,cy+2,15,15,7);
+}
+deskId=id;
+if(use3D){
+  const sideFacing=left||right;
+  const backX=left?cx:right?cx+14:cx+1;
+  const backY=back?cy:dir==='front'?cy+14:cy+1;
+  box(cx+6,cy+6,4,4,9,'#4c535d',2);
+  box(cx+1,cy+7,14,2,2.5,'#454d58',.8);
+  box(cx+7,cy+1,2,14,2.5,'#454d58',.8);
+  for(const [dx,dy] of [[0,6],[13,6],[6,0],[6,13]])box(cx+dx,cy+dy,3,3,2.3,'#303844');
+  box(cx,cy,16,16,10,'#697786',7.5,'none',0,0,4);
+  box(cx+1,cy+1,14,14,10.7,'#7d8b99',9.6,'none',0,0,4);
+  box(backX,backY,sideFacing?2:14,sideFacing?14:2,21,'#566170',9,'none',0,0,2.5);
+  for(const offset of [1,13]){
+    box(cx+(sideFacing?5:offset),cy+(sideFacing?offset:5),
+      sideFacing?9:2,sideFacing?2:9,13,'#4a5563',10);
+  }
+}else{
+  box(cx,cy,16,16,8,'var(--seat)',6);
+  box(left?cx:right?cx+13:cx,back?cy:dir==='front'?cy+13:cy,
+    left||right?3:16,left||right?16:3,16,'var(--seat)',8);
+}
+if(!flat)for(const dx of [3,w-6])for(const dy of [3,h-6])box(x+dx,y+dy,3,3,15,use3D?'#59636e':'var(--side)');
+const color=teamColor(rec.team);
+const inset=use3D?(floor===3?1.2:2.5):.8;
+box(x+inset,y+inset,w-2*inset,h-2*inset,17,use3D?(rec.team?'color-mix(in srgb,'+color+' 27%, #f4eee3)':'#f8f5ee'):
+  rec.team?'color-mix(in srgb,'+color+' 62%,var(--wood))':'var(--wood)',15,
+  active?'var(--primary)':rec.team?color:'var(--edge)',active?1.6:rec.team?1:.65,0,3.8);
+const mx=left?x+w-7:right?x+5:x+(w-19)/2;
+const my=left||right?y+(h-19)/2:back?y+h-6:y+4;
+if(use3D){
+  const sideFacing=left||right;
+  box(mx-(sideFacing?2:-5),my-(sideFacing?-5:2),sideFacing?6:9,sideFacing?9:6,18.2,'#75818f',17);
+  box(mx+(sideFacing?0:8),my+(sideFacing?8:0),2,2,22,'#546171',18);
+  box(mx,my,sideFacing?2:19,sideFacing?19:2,29,'#283542',21,'none',0,0,.65);
+  const screenX=left?mx-.15:right?mx+2:mx+1;
+  const screenY=back?my-.15:dir==='front'?my+2:my+1;
+  box(screenX,screenY,sideFacing?.15:17,sideFacing?17:.15,28,'#6d9bb1',22);
+  box(sideFacing?x+w/2-2:x+w/2-7,sideFacing?y+h/2-7:y+h/2-2,
+    sideFacing?4:14,sideFacing?14:4,17.65,'#c6cdd3',17,'none',0,0,.65);
+  for(let keyRow=-1;keyRow<=1;keyRow++){
+    box(sideFacing?x+w/2+keyRow:x+w/2-6,sideFacing?y+h/2-6:y+h/2+keyRow,
+      sideFacing?.55:12,sideFacing?12:.55,17.76,'#edf0f2',17.65);
+  }
+}else if(!flat){
+  box(mx,my,left||right?2:15,left||right?15:2,24,'var(--seat)',17);
+}
+deskId=null;
+}
+if(floor===6)glass(...p.glass);
+if(use3D)renderer.render(parts,{
+  width:W,height:H,centerX:(minX+maxX)/2,centerY:(minY+maxY)/2,
+  scale,cos,sin,rise,lift
+});
+faces.sort((a,b)=>a.layer-b.layer||a.depth-b.depth);
+for(const {attrs} of faces)el('polygon',attrs);
+for(const [x,y,s] of p.labels)if(W>480||s==='엘리베이터'||s==='가벽')label(x,y,s==='엘리베이터'?(use3D?27:19):8,s);
+for(const d of p.seats){
+const [a,b]=pt(d.x+d.w/2,d.y+d.h/2,17), t=document.createElement('button'), rec=records[d.id]||{};
+t.type='button';t.className='btn btn-ghost pin text-small';t.style.left=a+'px';t.style.top=b+'px';t.dataset.seat=d.id;t.setAttribute('aria-pressed',d.id===selected);
+if(rec.team){t.dataset.team=rec.team;t.style.setProperty('--team',teamColor(rec.team));}
+t.textContent=rec.person||seatNumber(d.id);
+if(rec.person){
+  t.dataset.person=rec.person;
+  t.draggable=activePlan===2;
+
+}
+const desc=[floor+'층 '+seatNumber(d.id)+'번',d.zone,rec.team,rec.person].filter(Boolean).join(' · ');t.setAttribute('aria-label',desc);t.dataset.tooltip=desc;pins.append(t);
+}}
+function pHasUnknown(){return plans[floor].features.some(f=>f[4]==='?');}
+function renderMoves(){
+  const original=new Map(Object.entries(rounds[0].records).map(([id,person])=>[memberKey(person),id]));
+  const moves=Object.entries(records)
+    .filter(([id,person])=>original.get(memberKey(person))!==id)
+    .sort(([a],[b])=>seatLabel(a).localeCompare(seatLabel(b),'ko',{numeric:true}));
+  const table=q('[data-move-table]');
+  const body=table.tBodies[0];
+  body.replaceChildren();
+  table.hidden=!moves.length;
+  q('[data-move-count]').textContent=moves.length?moves.length+'명 이동 · 3층·6층 전체':activePlan===2?'기존안과 다른 좌석에 배치된 사람이 없어요.':'기존안 대비 이동하는 사람이 없어요.';
+  for(const [id,person] of moves){
+    const previous=original.get(memberKey(person));
+    const row=body.insertRow();
+    for(const value of [person.person,person.team,previous?seatLabel(previous):'미배치',seatLabel(id)]){
+      row.insertCell().textContent=value;
+    }
+  }
+}
+q('[data-moves]').addEventListener('toggle',event=>{if(event.currentTarget.open)renderMoves();});
+function renderFloorRoster(){
+  const groups=new Map();
+  const sources=activePlan===2
+    ? rounds[0].roster.map(member=>({member,id:assignedSeats(member)[0]?.id}))
+    : plans[floor].seats.map(seat=>({member:records[seat.id],id:seat.id}));
+  for(const {member,id} of sources){
+    if(!member?.person)continue;
+    const team=member.team||'팀 미지정';
+    if(!groups.has(team))groups.set(team,[]);
+    groups.get(team).push({member,id});
+  }
+  q('[data-floor-heading]').textContent=floor+'층 좌석 배치';
+  q('[data-roster-heading]').textContent=activePlan===2?'배치할 인원 · 두 층 전체':floor+'층 팀별 인원';
+  for(const number of [3,6]){
+    const occupied=plans[number].seats.filter(seat=>records[seat.id]?.person).length;
+    q('[data-floor-count="'+number+'"]').textContent=occupied+'명 배치';
+  }
+  const list=q('[data-floor-roster]');
+  list.replaceChildren();
+  for(const [team,members] of groups){
+    const group=document.createElement('section');
+    group.className='floor-team';
+    const heading=document.createElement('h3');
+    heading.append(makeTeamCode(team),team+' · '+members.length+'명');
+    const people=document.createElement('ul');
+    for(const member of members){
+      const row=document.createElement('li'), number=document.createElement('small');
+      number.textContent=member.id?(activePlan===2?seatLabel(member.id):seatNumber(member.id)+'번'):'미배치';
+      if(activePlan===2){
+        const button=document.createElement('button');
+        button.type='button';
+        button.className='btn btn-ghost roster-drag';
+        button.draggable=true;
+        button.dataset.customPerson=String(rounds[0].roster.indexOf(member.member));
+        button.setAttribute('aria-pressed',String(picked===member.member));
+        button.append(member.member.person,number);
+        row.append(button);
+      }else row.append(member.member.person,number);
+      people.append(row);
+    }
+    group.append(heading,people);
+    list.append(group);
+  }
+}
+function update(){
+renderFloorRoster();
+if(q('[data-moves]').open)renderMoves();
+q('[data-report-summary]').textContent=summaries[activePlan];
+for(const button of r.querySelectorAll('[data-plan]')){
+  button.setAttribute('aria-pressed',String(Number(button.dataset.plan)===activePlan));
+}
+
+for(const b of r.querySelectorAll('[data-floor]'))b.setAttribute('aria-pressed',Number(b.dataset.floor)===floor);
+stage.toggleAttribute('data-orbit',!flat);
+for(const button of r.querySelectorAll('[data-turn]'))button.disabled=flat;
+q('[data-orbit-hint]').hidden=flat;
+q('[data-view]').setAttribute('aria-pressed',flat);q('[data-view]').textContent=flat?'입체로 보기':'위에서 보기';
+svg.setAttribute('aria-label',floor+'층 사무실 '+(flat?'평면':'입체')+' 배치도');
+const picker=q('[data-seat-picker]');picker.replaceChildren();
+for(const d of plans[floor].seats){const o=document.createElement('option');o.value=d.id;o.textContent=seatNumber(d.id)+'번 · '+d.zone+(records[d.id]?.person?' · '+records[d.id].person:'');picker.append(o);}
+picker.value=selected;
+const seat=plans[floor].seats.find(d=>d.id===selected), rec=records[selected]||{};
+q('[data-selected]').textContent=floor+'층 '+seatNumber(selected)+'번 좌석';q('[data-seat-note]').textContent=[rec.person,rec.team,seat.zone].filter(Boolean).join(' · ');
+
+const assigned=plans[floor].seats.filter(seat=>records[seat.id]?.person).length;
+q('[data-legend]').textContent=assigned+'명 배치 · 빈자리 '+(plans[floor].seats.length-assigned)+'석';
+draw();
+}
+function choose(id){selected=id;update();}
+let drag=null, suppressClick=false, frame=0;
+function redraw(){
+  if(frame)return;
+  frame=requestAnimationFrame(()=>{frame=0;draw();});
+}
+stage.addEventListener('pointerdown',event=>{
+  if(flat||event.button!==0||!event.isPrimary||event.target.closest('[draggable="true"]'))return;
+  suppressClick=false;
+  drag={id:event.pointerId,x:event.clientX,y:event.clientY,yaw,tilt,started:false};
+});
+stage.addEventListener('pointermove',event=>{
+  if(!drag||event.pointerId!==drag.id)return;
+  const dx=event.clientX-drag.x, dy=event.clientY-drag.y;
+  if(!drag.started&&Math.hypot(dx,dy)<5)return;
+  if(!drag.started){
+    stage.setPointerCapture(event.pointerId);
+    stage.setAttribute('data-dragging','');
+    drag.started=true;
+  }
+  yaw=drag.yaw+dx*.012;
+  tilt=Math.max(.48,Math.min(1.46,drag.tilt-dy*.009));
+  redraw();
+});
+function endDrag(event){
+  if(!drag||event.pointerId!==drag.id)return;
+  suppressClick=drag.started;
+  drag=null;
+  stage.removeAttribute('data-dragging');
+  if(suppressClick)setTimeout(()=>{suppressClick=false;},0);
+}
+stage.addEventListener('pointerup',endDrag);
+stage.addEventListener('pointercancel',endDrag);
+stage.addEventListener('pointerleave',event=>{if(drag&&!drag.started)endDrag(event);});
+r.addEventListener('click',e=>{
+  if(suppressClick&&stage.contains(e.target))return;
+  if(e.target===canvas&&renderer&&!flat){
+    const rect=canvas.getBoundingClientRect();
+    const id=renderer.pick(e.clientX-rect.left,e.clientY-rect.top);
+    if(id)selectSeat(id);
+    return;
+  }
+  const control=e.target.closest('button,[data-seat]');
+  if(!control)return;
+  if(control.dataset.floor){
+    floor=Number(control.dataset.floor);
+    pendingMove=null;
+    choose(plans[floor].seats[0].id);
+    showPlacement(picked?picked.person+'님을 배치할 좌석을 선택하세요.':'');
+  }
+  if(control.hasAttribute('data-view')){flat=!flat;update();}
+  if(control.dataset.turn){yaw+=Number(control.dataset.turn)*Math.PI/6;draw();}
+  if(control.dataset.customPerson!==undefined&&activePlan===2){
+    picked=rounds[0].roster[Number(control.dataset.customPerson)];
+    renderFloorRoster();
+    showPlacement(picked.person+'님을 배치할 좌석을 선택하세요.');
+  }
+  if(control.dataset.seat)selectSeat(control.dataset.seat);
+});
+q('[data-seat-picker]').addEventListener('change',event=>selectSeat(event.target.value));
+const status=q('[data-round-status]');
+for(const button of r.querySelectorAll('[data-plan]'))button.addEventListener('click',()=>{
+  const next=Number(button.dataset.plan);
+  if(next===activePlan)return;
+  
+  const currentFloor=floor;
+  activePlan=next;
+  restore({privateContent:structuredClone(rounds[next])});
+  floor=currentFloor;
+  if(!plans[floor].seats.some(seat=>seat.id===selected))selected=plans[floor].seats[0].id;
+  picked=null;pendingMove=null;showPlacement('');
+  status.textContent='';
+  update();
+});
+function putMember(member,id){
+  const occupant=records[id], previous=assignedSeats(member);
+  const swap=occupant?.person&&memberKey(occupant)!==memberKey(member);
+  if(swap&&previous.length!==1){
+    showPlacement('미배치 인원은 빈 좌석에 놓아 주세요.');
+    return;
+  }
+  for(const seat of previous)delete records[seat.id];
+  if(swap)records[previous[0].id]=occupant;
+  records[id]={team:member.team,person:member.person};
+  picked=null;
+  choose(id);
+  saveCustom(swap?member.person+'님과 '+occupant.person+'님의 자리를 바꿨어요.':member.person+'님 · '+seatLabel(id)+' 배치');
+}
+function saveCustom(message){
+  rounds[2]=snapshot();
+  let stored=true;
+  try{localStorage.setItem(customKey,JSON.stringify(rounds[2]));}catch{stored=false;}
+  showPlacement(message+(stored?'':' · 공유용 HTML에 저장할 수 있어요.'));
+}
+function selectSeat(id){
+  if(activePlan===2&&picked)putMember(picked,id);
+  else choose(id);
+}
+let dragged=null;
+let dropSeat=null;
+function targetSeat(event){
+  const pin=event.target.closest('[data-seat]');
+  if(pin)return pin.dataset.seat;
+  if(event.target===canvas&&renderer&&!flat){
+    const rect=canvas.getBoundingClientRect();
+    return renderer.pick(event.clientX-rect.left,event.clientY-rect.top);
+  }
+  return null;
+}
+function highlightTarget(id){
+  if(id===dropSeat)return;
+  dropSeat=id;
+  for(const pin of pins.querySelectorAll('[data-seat]'))pin.classList.toggle('drop-target',pin.dataset.seat===id);
+}
+r.addEventListener('dragstart',event=>{
+  const source=event.target.closest('[data-custom-person],[data-seat][draggable=true]');
+  if(activePlan!==2||!source)return;
+  dragged=source.dataset.seat?records[source.dataset.seat]:rounds[0].roster[Number(source.dataset.customPerson)];
+  if(!dragged?.person){event.preventDefault();return;}
+  event.dataTransfer.setData('text/plain',dragged.person);
+  event.dataTransfer.effectAllowed='move';
+});
+stage.addEventListener('dragover',event=>{
+  if(activePlan!==2||!dragged)return;
+  const id=targetSeat(event);
+  highlightTarget(id);
+  if(id)event.preventDefault();
+});
+stage.addEventListener('dragleave',event=>{if(!stage.contains(event.relatedTarget))highlightTarget(null);});
+stage.addEventListener('drop',event=>{
+  if(activePlan!==2||!dragged)return;
+  event.preventDefault();
+  const id=targetSeat(event), member=dragged;
+  dragged=null;
+  highlightTarget(null);
+  if(id)putMember(member,id);
+});
+const returnArea=q('.report-roster');
+returnArea.addEventListener('dragover',event=>{
+  if(activePlan===2&&dragged&&assignedSeats(dragged).length)event.preventDefault();
+});
+returnArea.addEventListener('drop',event=>{
+  if(activePlan!==2||!dragged)return;
+  const previous=assignedSeats(dragged);
+  if(!previous.length)return;
+  event.preventDefault();
+  const member=dragged;
+  dragged=null;picked=null;
+  highlightTarget(null);
+  for(const seat of previous)delete records[seat.id];
+  update();
+  saveCustom(member.person+'님을 미배치로 돌렸어요.');
+});
+r.addEventListener('dragend',()=>{dragged=null;highlightTarget(null);});
+q('[data-share]').addEventListener('click',()=>{
+  const data={fileId:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),draft:snapshot(),activePlan,rounds};
+  const shareDocument=new DOMParser().parseFromString(documentSource,'text/html');
+  shareDocument.getElementById('office-seed').textContent=JSON.stringify(data).replaceAll('<','\\u003c');
+  const blob=new Blob(['<!doctype html>\n'+shareDocument.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob), link=document.createElement('a');
+  link.href=url;link.download='office-seating-report.html';link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  status.textContent='세 가지 배치안이 담긴 보고용 HTML을 내려받았어요.';
+});
+new ResizeObserver(()=>draw()).observe(stageScroll);
+update();
+})();
+
+});
+</script></body></html>
