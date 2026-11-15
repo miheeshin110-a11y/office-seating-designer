@@ -1632,7 +1632,7 @@ html:root{color-scheme:light;--background:#fff;--foreground:#24292f;--border:#d7
 <div><p>3층 / 6층</p><h1>사무실 좌석 배치 비교</h1></div>
 <button class="btn" type="button" data-share>공유용 HTML 저장</button>
 </header>
-<div class="plan-grid" role="group" aria-label="배치안 선택"><button type="button" class="plan-card" data-plan="0"><span>기존안</span><strong>현재 배치</strong><small>변경 전 좌석 확인</small></button><button type="button" class="plan-card" data-plan="1"><span>2안</span><strong>디지털마케팅·제품팀 인접 배치</strong><small>6층에 두 팀 배치 · 미디어커머스는 3층</small></button><button type="button" class="plan-card" data-plan="2"><span>3안</span><strong>직접 배치</strong><small>오른쪽에서 이름 끌어 놓기</small></button></div>
+<div class="plan-grid" role="group" aria-label="배치안 선택"><button type="button" class="plan-card" data-plan="0"><span>기존안</span><strong>현재 배치</strong><small>변경 전 좌석 확인</small></button><button type="button" class="plan-card" data-plan="1"><span>2안</span><strong>6층에 디지털마케팅·제품·온라인 MD 인접 배치</strong><small>미디어커머스는 3층으로 이동</small></button><button type="button" class="plan-card" data-plan="2"><span>3안</span><strong>직접 배치</strong><small>오른쪽에서 이름 끌어 놓기</small></button></div>
 <div class="report-summary" data-report-summary aria-live="polite"></div>
 <p class="text-small" data-round-status role="status"></p>
 <div class="office-layout">
@@ -6406,7 +6406,7 @@ restore({privateContent:structuredClone(rounds[activePlan])});
 const snapshot=()=>structuredClone({version:1,records,colors,roster,floor,flat,selected});
 const summaries=[
   '기존안 · 현재 좌석 배치.',
-  '2안 · 디지털마케팅팀과 제품팀을 6층에 모아 배치했습니다. 김수정님은 6층 7번, 이정수님은 3층 5번. 김진희님은 3층 3번, 엄연진님은 1번. 이성은님은 6층 5번에서 온라인 MD와 인접합니다.',
+  '2안 · 디지털마케팅팀, 제품팀, 온라인 MD팀을 6층에 가까이 배치했습니다. 김수정님은 6층 7번, 이정수님은 3층 5번. 김진희님은 3층 3번, 엄연진님은 1번. 이성은님은 6층 5번에서 온라인 MD와 인접합니다.',
   '3안 · 오른쪽 명단에서 이름을 책상에 끌어 놓으세요. 책상 위 이름을 오른쪽 명단으로 끌면 미배치로 돌아가고, 다른 사람의 책상에 놓으면 서로 자리를 바꿔요.'
 ];
 const palette=['#175bbb','#a63826','#17734b','#753bb1','#9b285d','#785000','#006a79','#505573'];
