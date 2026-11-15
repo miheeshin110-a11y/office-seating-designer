@@ -1548,17 +1548,17 @@ body{margin:0 auto;max-width:1250px;padding:1.25rem;box-sizing:border-box}
 #days-office-plan [hidden]{display:none!important}
 #days-office-plan [data-placement]{min-height:1.4em;overflow-wrap:anywhere}
 @media(max-width:560px){#days-office-plan .office-layout{grid-template-columns:1fr}}
-#days-office-plan{--report-ink:light-dark(#162938,#e9f3fa);--report-panel:light-dark(#f0f5f8,#212e38);--report-accent:light-dark(#12695c,#84e5cb);color:var(--report-ink);gap:1.1rem}
-#days-office-plan .report-hero{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.55rem 1.7rem;background:#142e3b;color:#fff;border-radius:18px}
-#days-office-plan .report-hero p{color:#a5e0d3;margin:0 0 .2rem;font-weight:600}
+#days-office-plan{--report-ink: #1f2933;--report-panel:#f7fafc;--report-accent:#34495e;color:var(--report-ink);gap:1.1rem}
+#days-office-plan .report-hero{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.55rem 1.7rem;background:#fff;color:#1f2933;border-bottom:1px solid #d8dee4;border-radius:0}
+#days-office-plan .report-hero p{color:#57606a;margin:0 0 .2rem;font-weight:600}
 #days-office-plan .report-hero h1{margin:0;color:inherit;font-size:clamp(24px,4vw,40px);letter-spacing:-.055em}
 #days-office-plan .plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}
 #days-office-plan .plan-card{display:grid;gap:.32rem;align-content:start;padding:1rem;text-align:left;border:1px solid var(--border);border-radius:12px;background:var(--report-panel);color:var(--report-ink);font:inherit;cursor:pointer}
 #days-office-plan .plan-card span{font-size:clamp(21px,3vw,33px);font-weight:750;color:var(--report-accent)}
 #days-office-plan .plan-card strong{font-size:1.02rem}
 #days-office-plan .plan-card small{line-height:1.4}
-#days-office-plan .plan-card[aria-pressed=true]{background:#12695c;color:#fff;border-color:#12695c}
-#days-office-plan .plan-card[aria-pressed=true] span{color:#fff}
+#days-office-plan .plan-card[aria-pressed=true]{background:#eef3f7;color:#1f2933;border-color:#64748b}
+#days-office-plan .plan-card[aria-pressed=true] span{color:var(--report-ink)}
 #days-office-plan .report-summary{padding:.75rem 1rem;border-left:3px solid var(--report-accent);line-height:1.6}
 #days-office-plan .office-layout{grid-template-columns:minmax(0,1fr)}
 #days-office-plan .office-main{padding:1rem;border:1px solid var(--border);border-radius:14px}
@@ -1578,7 +1578,7 @@ body{max-width:1600px}
 #days-office-plan .report-floors{display:grid;gap:.6rem}
 #days-office-plan .report-floors h2,#days-office-plan .report-roster h2,#days-office-plan .office-main>h2{font-size:1.1rem;margin:0}
 #days-office-plan .report-floors button{display:grid;gap:.2rem;text-align:left;background:var(--card);color:var(--report-ink);border:1px solid var(--border);border-radius:8px;padding:.7rem;font:inherit;cursor:pointer}
-#days-office-plan .report-floors button[aria-pressed=true]{background:#12695c;color:#fff;border-color:#12695c}
+#days-office-plan .report-floors button[aria-pressed=true]{background:#eef3f7;color:#1f2933;border-color:#64748b}
 #days-office-plan .floor-team{padding:.55rem 0;border-top:1px solid var(--border)}
 #days-office-plan .floor-team h3{font-size:.94rem;margin:0 0 .3rem}
 #days-office-plan .floor-team ul{list-style:none;margin:0;padding:0;display:grid;gap:.12rem}
@@ -1611,6 +1611,22 @@ body{width:100%;max-width:none;margin-inline:auto;padding:0}
 #days-office-plan .stage[data-miniature] .pin[data-person][data-team][aria-pressed="true"]{outline:2px solid var(--primary);outline-offset:1px}
 #days-office-plan .stage[data-miniature] .pin.drop-target{outline:2px dashed var(--report-accent);outline-offset:2px;background:#fff}
 #days-office-plan .stage[data-miniature] .plan-label{padding:.05em .45em;border-radius:4px;font-size:11px;font-weight:650;color:#3d4448;background:rgb(255 255 255 / 84%);box-shadow:0 1px 2px rgb(20 30 40 / 16%)}
+/* 회의 운영 보고서 양식 */
+html:root{color-scheme:light;--background:#fff;--foreground:#24292f;--border:#d7e0e7;--card:#fff;--card-foreground:#24292f;--muted:#f7fafc;--muted-foreground:#57606a;--primary:#34495e;--primary-foreground:#fff}
+#days-office-plan{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;line-height:1.55}
+#days-office-plan .report-hero{padding:0 0 .9rem}
+#days-office-plan .report-hero p{font-size:.85rem}
+#days-office-plan .report-hero h1{font-size:clamp(25px,3vw,32px);line-height:1.35;letter-spacing:-.01em}
+#days-office-plan .report-hero .btn{background:#fff;color:#24292f;border:1px solid #d7e0e7}
+#days-office-plan .plan-card{background:#fff;border-radius:5px;box-shadow:none}
+#days-office-plan .plan-card span{font-size:1.15rem}
+#days-office-plan .plan-card small,#days-office-plan .report-floors small{color:#57606a}
+#days-office-plan .plan-card[aria-pressed=true],#days-office-plan .report-floors button[aria-pressed=true]{box-shadow:inset 0 -2px #64748b}
+#days-office-plan .report-summary{background:#f7fafc;border-left:3px solid #64748b}
+#days-office-plan .report-floors,#days-office-plan .report-roster,#days-office-plan .office-main{border:1px solid #d7e0e7;border-radius:5px}
+#days-office-plan .move-details th{background:#eef3f7}
+#days-office-plan .move-details :is(th,td){padding:11px 12px}
+@media(max-width:560px){#days-office-plan .move-details :is(th,td){padding:.45rem .25rem}}
 </style>
 <header class="report-hero">
 <div><p>3층 / 6층</p><h1>사무실 좌석 배치 비교</h1></div>
@@ -6113,28 +6129,36 @@ function createOfficeRenderer(canvas){
       seg(low,0,length,7,8.2,M.cap,T+.2);
       seg(tall,0,length,0,1.6,M.base,T+.5);
       seg(tall,0,length,top,top+1.2,M.cap,T+.3);
-      if(side==='n'||side==='e'){
+      const ranges=p.windows ? (p.windows[side]||[]) : (side==='n'||side==='e'?[[0,length]]:[]);
+      if(ranges.length){
         const sill=10, head=50;
         seg(tall,0,length,1.6,sill,M.wall);
         seg(tall,0,length,sill,sill+.9,M.stone,T+1.6);
         seg(tall,0,length,head,top,M.wall);
-        const bays=Math.max(1,Math.round(length/38)), span=length/bays;
-        for(let bay=0;bay<bays;bay++){
-          const start=bay*span;
-          if(blocked(side,start,start+span)){seg(tall,start,span,sill,head,M.wall);continue;}
-          seg(tall,start,1.4,sill,head,M.frame,T-1,.5);
-          seg(tall,start+1.4,span-1.4,sill+.9,sill+1.8,M.frame,T-2,1);
-          seg(tall,start+1.4,span-1.4,head-1,head,M.frame,T-2,1);
-          seg(tall,start+1.4,span-1.4,sill+1.8,head-1,M.glass,.4,2.2,{cast:false});
+        let end=0;
+        for(const [from,to] of ranges){
+          seg(tall,end,from-end,sill,head,M.wall);
+          const width=to-from,bays=Math.max(1,Math.round(width/38)),span=width/bays;
+          for(let bay=0;bay<bays;bay++){
+            const start=from+bay*span;
+            if(blocked(side,start,start+span)){seg(tall,start,span,sill,head,M.wall);continue;}
+            seg(tall,start,1.4,sill,head,M.frame,T-1,.5);
+            seg(tall,start+1.4,span-1.4,sill+.9,sill+1.8,M.frame,T-2,1);
+            seg(tall,start+1.4,span-1.4,head-1,head,M.frame,T-2,1);
+            seg(tall,start+1.4,span-1.4,sill+1.8,head-1,M.glass,.4,2.2,{cast:false});
+          }
+          seg(tall,to-1.4,1.4,sill,head,M.frame,T-1,.5);
+          const view=new THREE.Mesh(new THREE.PlaneGeometry(width,head-sill),M.sky);
+          view.material=M.sky.clone();owned.push(view.material);
+          view.material.map=skyline.clone();view.material.map.repeat.set(width/150,1);view.material.map.needsUpdate=true;
+          const mid=(from+to)/2, z=(sill+head)/2;
+          if(side==='n')view.position.set(mid,z,-.8);
+          if(side==='e'){view.rotation.y=-Math.PI/2;view.position.set(p.w+.8,z,mid);}
+          if(side==='w'){view.rotation.y=Math.PI/2;view.position.set(-.8,z,mid);}
+          tall.add(view);
+          end=to;
         }
-        seg(tall,length-1.4,1.4,sill,head,M.frame,T-1,.5);
-        // The city outside the glass.
-        const view=new THREE.Mesh(new THREE.PlaneGeometry(length,head-sill),M.sky);
-        view.material=M.sky.clone();owned.push(view.material);
-        view.material.map=skyline.clone();view.material.map.repeat.set(length/150,1);view.material.map.needsUpdate=true;
-        if(side==='n'){view.position.set(length/2,(sill+head)/2,-.8);}
-        else{view.rotation.y=-Math.PI/2;view.position.set(p.w+.8,(sill+head)/2,length/2);}
-        tall.add(view);
+        seg(tall,end,length-end,sill,head,M.wall);
       }else{
         seg(tall,0,length,1.6,top,M.wall);
       }
@@ -6151,15 +6175,6 @@ function createOfficeRenderer(canvas){
         block(cx-door/2,ey+eh+.3,door/2-.15,.9,.2,28.4,M.steel,{cast:false});
         block(cx+.15,ey+eh+.3,door/2-.15,.9,.2,28.4,M.steel,{cast:false});
       }
-    }
-
-    if(p.printer){
-      const [x,y,w,h]=p.printer;
-      block(x,y,w,h,0,12,M.stone);
-      block(x+.8,y+.8,w-1.6,h-1.6,12,21,M.wall);
-      block(x+2,y+2,w-4,h-4,21,23,M.cap);
-      block(x+3,y+h-2,w-6,1,16,18,M.frame);
-      block(x+w-6,y+3,3,4,23,23.5,M.steel);
     }
 
     // Glass partition with slim bronze frames.
@@ -6331,7 +6346,7 @@ r.append(colorProbe);
 const plans={
 3:{w:634,h:310, groups:[[58,120,2,2,'유리벽 안'],[194,111,2,2,'유리벽 옆'],[344,77,2,3,'가운데'],[502,70,2,3,'창가 쪽']],
 features:[],
-glass:[168,50,3,220],lift:[443,17,46,29],printer:[205,82,22,17],labels:[[466,13,'엘리베이터']]},
+windows:{w:[[102,226]],e:[[52,171]]},glass:[168,50,3,220],lift:[443,17,46,29],labels:[[466,13,'엘리베이터']]},
 6:{w:352,h:248,groups:[[48,48,2,1,'엘리베이터 앞'],[189,15,1,3,'엘리베이터 앞 창가'],[48,152,2,2,'펜던트 조명 쪽'],[194,152,2,2,'펜던트 조명 쪽']],
 features:[],
 glass:[18,124,316,3],lift:[185,-9,46,16],voids:[[231,0,121,124]],labels:[[208,-1,'엘리베이터'],[310,126,'가벽'],[292,62,'사용하지 않는 공간']]}
@@ -6482,7 +6497,6 @@ function label(x,y,z,msg){
 }
 if(use3D)renderer.render({plan:p,floor,records,selected,teamColor,resolve:material,W,H,scale,centerX:(minX+maxX)/2,centerY:(minY+maxY)/2,cos,sin,rise,lift});
 else drawPlan(p,{camera,pt,cos,sin});
-if(p.printer){const [x,y,w,h]=p.printer;label(x+w/2,y+h/2,use3D?25:0,'프린터');}
 for(const [x,y,s] of p.labels)if(W>480||s==='엘리베이터'||s==='가벽')label(x,y,s==='엘리베이터'?(use3D?57:19):s==='사용하지 않는 공간'?3:(use3D?29:8),s);
 for(const d of p.seats){
 const rec=records[d.id]||{}, seated=use3DView&&rec.person;
@@ -6528,10 +6542,18 @@ function drawPlan(p,{camera,pt,cos,sin}){
   box(0,0,p.w,p.h,0,'var(--slab)',-9,'var(--edge)',.65,-1);
   if(floor===3){
     box(0,0,p.w,5,15,'var(--side)');
-    box(0,0,5,p.h,12,'var(--side)');
+    for(const side of ['w','e']){
+      const x=side==='w'?0:p.w-5;
+      let end=0;
+      for(const [from,to] of p.windows[side]){
+        box(x,end,5,from-end,12,'var(--side)');
+        box(x,from,5,to-from,12,'var(--glass)');
+        end=to;
+      }
+      box(x,end,5,p.h-end,12,'var(--side)');
+    }
   }
   box(...p.lift,16,'var(--side)');
-  if(p.printer)box(...p.printer,20,'var(--side)');
   for(const [x,y,w,h] of p.features)box(x,y,w,h,17,'var(--wood)',14);
   for(const [x,y,w,h] of p.voids||[])box(x,y,w,h,1,'color-mix(in srgb,var(--foreground) 16%,var(--background))',0);
   if(floor===3)glass(...p.glass);
