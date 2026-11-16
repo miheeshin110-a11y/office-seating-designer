@@ -1621,7 +1621,12 @@ html:root{color-scheme:light;--background:#fff;--foreground:#24292f;--border:#d7
 #days-office-plan .report-hero h1{font-size:clamp(25px,3vw,32px);line-height:1.35;letter-spacing:-.01em}
 #days-office-plan .report-hero .btn{background:#fff;color:#24292f;border:1px solid #d7e0e7}
 #days-office-plan .plan-card{background:#fff;border-radius:5px;box-shadow:none}
-#days-office-plan .plan-card span{font-size:1.15rem}
+#days-office-plan .plan-grid{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr}
+#days-office-plan .plan-card{grid-template-rows:auto 1fr auto;align-content:stretch;min-height:102px;gap:.4rem}
+#days-office-plan .plan-card strong{font-size:.94rem;line-height:1.4;word-break:keep-all}
+#days-office-plan .plan-card span{font-size:1.15rem;line-height:1.3}
+@media(max-width:850px){#days-office-plan .plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){#days-office-plan .plan-card{padding:.75rem}}
 #days-office-plan .plan-card small,#days-office-plan .report-floors small{color:#57606a}
 #days-office-plan .plan-card[aria-pressed=true],#days-office-plan .report-floors button[aria-pressed=true]{box-shadow:inset 0 -2px #64748b}
 #days-office-plan .report-summary{background:#f7fafc;border-left:3px solid #64748b}
@@ -1634,7 +1639,7 @@ html:root{color-scheme:light;--background:#fff;--foreground:#24292f;--border:#d7
 <div><p>3층 / 6층</p><h1>사무실 좌석 배치 비교</h1></div>
 <button class="btn" type="button" data-share>공유용 HTML 저장</button>
 </header>
-<div class="plan-grid" role="group" aria-label="배치안 선택"><button type="button" class="plan-card" data-plan="0"><span>기존안</span><strong>현재 배치</strong><small>변경 전 좌석 확인</small></button><button type="button" class="plan-card" data-plan="1"><span>2안</span><strong>6층에 디지털마케팅·제품·온라인 MD 인접 배치</strong><small>미디어커머스는 3층으로 이동</small></button><button type="button" class="plan-card" data-plan="6"><span>3안</span><strong>6층에 브랜드콘텐츠·디지털마케팅</strong><small>김수정님은 6층 · 미디어커머스는 3층</small></button><button type="button" class="plan-card" data-plan="2"><span>4안</span><strong>직접 배치</strong><small>오른쪽에서 이름 끌어 놓기</small></button><button type="button" class="plan-card" data-plan="3" hidden><span>4안 저장본</span><strong>커스터마이징</strong><small data-saved-count></small></button><button type="button" class="plan-card" data-plan="4" hidden><span>5안</span><strong>커스터마이징</strong><small data-saved-count></small></button><button type="button" class="plan-card" data-plan="5" hidden><span>6안</span><strong>커스터마이징</strong><small data-saved-count></small></button></div>
+<div class="plan-grid" role="group" aria-label="배치안 선택"><button type="button" class="plan-card" data-plan="0"><span>기존안</span><strong>현재 배치</strong><small>변경 전 좌석 확인</small></button><button type="button" class="plan-card" data-plan="1"><span>2안</span><strong>6층 · 마케팅·제품·온라인 MD</strong><small>3층 · 미디어커머스</small></button><button type="button" class="plan-card" data-plan="6"><span>3안</span><strong>6층 · 브랜드콘텐츠·마케팅·김수정</strong><small>3층 · 미디어커머스·온라인 MD</small></button><button type="button" class="plan-card" data-plan="2"><span>4안</span><strong>직접 배치</strong><small>오른쪽에서 이름 끌어 놓기</small></button><button type="button" class="plan-card" data-plan="3" hidden><span>4안 저장본</span><strong>커스터마이징</strong><small data-saved-count></small></button><button type="button" class="plan-card" data-plan="4" hidden><span>5안</span><strong>커스터마이징</strong><small data-saved-count></small></button><button type="button" class="plan-card" data-plan="5" hidden><span>6안</span><strong>커스터마이징</strong><small data-saved-count></small></button></div>
 <div class="viz-row" data-variant-controls hidden>
   <label for="office-variant-slot">저장할 배치안</label>
   <select class="form-select" id="office-variant-slot" data-variant-slot></select>
